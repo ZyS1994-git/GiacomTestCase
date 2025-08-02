@@ -72,7 +72,6 @@ namespace Order.Data
                         Quantity = i.Quantity.Value
                     })
                 }).SingleOrDefaultAsync();
-            var test = order.CreatedDate.Month;
             return order;
         }
         public async Task<IEnumerable<OrderDetail>> GetOrdersByStatusAsync(string statusName)
