@@ -1,0 +1,191 @@
+{
+	"info": {
+		"_postman_id": "a7b3e787-3082-4e0f-a032-15be4f79e3ac",
+		"name": "GiacomeTest",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "7420095"
+	},
+	"item": [
+		{
+			"name": "GetAllOrders",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/orders",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetOrderById",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/orders/e6214697-a030-f449-0bee-4781aa8775c7",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"orders",
+						"e6214697-a030-f449-0bee-4781aa8775c7"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CalculateProfitByMonthAndYear",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/orders/CalculateProfitByMonthAndYear/8/2025",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"orders",
+						"CalculateProfitByMonthAndYear",
+						"8",
+						"2025"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CalculateProfitByMonth",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/orders/CalculateProfitByMonthAndYear/8/2025",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"orders",
+						"CalculateProfitByMonthAndYear",
+						"8",
+						"2025"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateOrderStatus",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"statusId\":\"72d89f16-dc98-af75-0392-465ec92ee1be\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/orders/e6214697-a030-f449-0bee-4781aa8775c7",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"orders",
+						"e6214697-a030-f449-0bee-4781aa8775c7"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PostOrder",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"statusId\":\"0a1e2ee0-fc8c-258e-b7ae-d43fbce6fe11\",\r\n    \"resellerId\": \"d7150e49-3b84-e773-9070-6d924ed226f7\",\r\n    \"customerId\": \"ceb3b9fb-b214-4c6b-8420-1499278fb0c2\",\r\n    \"createdDate\": \"2019-12-29T02:20:19\",\r\n    \"items\":[\r\n        {\r\n            \"serviceId\": \"66daf27f-c489-d7ef-fef2-08f5967f5ab3\",\r\n            \"productId\": \"e501de93-17bc-e1b7-6345-d2ffcc19d797\",\r\n            \"quantity\":5\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/orders",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetOrdersByStatusName",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/orders/GetOrdersByStatus/?statusName=Completed",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"orders",
+						"GetOrdersByStatus",
+						""
+					],
+					"query": [
+						{
+							"key": "statusName",
+							"value": "Completed"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "baseURL",
+			"value": "http://localhost:8000",
+			"type": "default"
+		}
+	]
+}

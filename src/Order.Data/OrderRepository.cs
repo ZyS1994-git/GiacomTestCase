@@ -166,38 +166,21 @@ namespace Order.Data
 
         public async Task<string> CalculateProfitByMonthAsync(int month)
         {
-            // I had to do this in this way, there seem to be a bug in mysql integration with
-            // .net when trying to filter datetime and accessing month property
-            var allOrdersItems = await _orderContext.Order.Select(x => new 
-            { Month = Convert.ToInt32(x.CreatedDate.ToString("MM")), Items = x.Items }).ToListAsync();
-            decimal? profitDone = 0;
-            foreach (var singleOrderItems in allOrdersItems.Where(x=>x.Month == month).Select(x=>x.Items))
-            {
-                foreach (var item in singleOrderItems) 
-                {
-                    profitDone += item.Quantity * (item.Product.UnitPrice - item.Product.UnitCost);
-                }
-            }
-            return $"Profit made in month number {month} through all years is {profitDone}";
+            var completedOrders = (await GetOrdersByStatusAsync("completed")).Where(x=>x.CreatedDate.Month == month);
+
+            var profit = completedOrders.Select(x => x.TotalPrice - x.TotalCost).Sum();
+
+            return $"Profit made in month number {month} through all years is {profit}";
 
         }
 
         public async Task<string> CalculateProfitByMonthAndYearAsync(int month, int year)
         {
-            // I had to do this in this way, there seem to be a bug in mysql integration with
-            // .net when trying to filter datetime and accessing month property
-            var allOrdersItems = await _orderContext.Order.Select(x => new
-            { Month = Convert.ToInt32(x.CreatedDate.ToString("MM")), Year = Convert.ToInt32(x.CreatedDate.ToString("yyyy")),
-                Items = x.Items }).ToListAsync();
-            decimal? profitDone = 0;
-            foreach (var singleOrderItems in allOrdersItems.Where(x => x.Month == month && x.Year == year).Select(x => x.Items))
-            {
-                foreach (var item in singleOrderItems)
-                {
-                    profitDone += item.Quantity * (item.Product.UnitPrice - item.Product.UnitCost);
-                }
-            }
-            return $"Profit made in month number {month} in year {year} is {profitDone}";
+            var completedOrders = (await GetOrdersByStatusAsync("completed")).Where(x => x.CreatedDate.Month == month && x.CreatedDate.Year == year);
+
+            var profit = completedOrders.Select(x => x.TotalPrice - x.TotalCost).Sum();
+
+            return $"Profit made in month number {month} in year {year} is {profit}";
         }
     }
 }

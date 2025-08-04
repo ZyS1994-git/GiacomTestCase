@@ -154,7 +154,9 @@ namespace Order.Service.Tests
         {
             // Arrange
             var orderId1 = Guid.NewGuid();
+
             await AddOrder(orderId1, 2);
+
 
             // Act
             var order = await _orderService.GetOrderByIdAsync(orderId1);
@@ -187,8 +189,32 @@ namespace Order.Service.Tests
 
             await _orderContext.SaveChangesAsync();
         }
+
+        private async Task AddCompletedOrder(Guid orderId, int quantity)
+        {
+            var orderIdBytes = orderId.ToByteArray();
+            _orderContext.Order.Add(new Data.Entities.Order
+            {
+                Id = orderIdBytes,
+                ResellerId = Guid.NewGuid().ToByteArray(),
+                CustomerId = Guid.NewGuid().ToByteArray(),
+                CreatedDate = DateTime.Now,
+                StatusId = _orderStatusCompletedGuid.ToByteArray(),
+            });
+
+            _orderContext.OrderItem.Add(new OrderItem
+            {
+                Id = Guid.NewGuid().ToByteArray(),
+                OrderId = orderIdBytes,
+                ServiceId = _orderServiceEmailIdGuid.ToByteArray(),
+                ProductId = _orderProductEmailIdGuid.ToByteArray(),
+                Quantity = quantity
+            });
+
+            await _orderContext.SaveChangesAsync();
+        }
         [Test]
-        public async Task GetOrderByStatuAsync_ReturnsCorrectOrder()
+        public async Task GetOrderByStatusAsync_ReturnsCorrectOrders()
         {
             // Arrange
             var orderId1 = Guid.NewGuid();
@@ -250,7 +276,10 @@ namespace Order.Service.Tests
         {
             // Arrange
             var orderId1 = Guid.NewGuid();
+            var orderId2 = Guid.NewGuid();
+
             await AddOrder(orderId1, 5);
+            await AddCompletedOrder(orderId2, 5);
 
             // Act
             var result = await _orderService.CalculateProfitByMonthAsync(8);
@@ -265,7 +294,10 @@ namespace Order.Service.Tests
         {
             // Arrange
             var orderId1 = Guid.NewGuid();
+            var orderId2 = Guid.NewGuid();
+
             await AddOrder(orderId1, 7);
+            await AddCompletedOrder(orderId2, 7);
 
             // Act
             var result = await _orderService.CalculateProfitByMonthAndYearAsync(8,2025);
